@@ -1,0 +1,16 @@
+doctype html
+head
+  title Dashboard
+  link(rel="stylesheet",href="./style.css")
+form(method="POST" action="/report")
+  h1 
+    | Welcome 
+    span #{username} 
+    | to your dashboard.
+  h3 You can make a report in the form bellow
+  input(type="text" name="report")
+  input(type="submit" class="btn")
+
+  hr
+
+  a.btn(href="/logout") Logout
