@@ -1,7 +1,6 @@
 const express = require("express");
 const session = require('express-session')
 const bodyParser = require("body-parser");
-const cookieParser = require("cookie-parser");
 const path = require("path");
 
 const app = express();
@@ -14,8 +13,6 @@ app.use(express.static(path.join(__dirname, 'src/public')));
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-
-app.use(cookieParser());
 
 app.use(session({secret:"Keep it secret", name:"uniqueSessionID", saveUninitialized:false, resave: true}))
 
