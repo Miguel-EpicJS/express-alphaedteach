@@ -1,0 +1,15 @@
+doctype html
+head
+    title Messages
+    link(rel="stylesheet",href="./style.css")
+form(method="POST" action="/new-message")
+    h1 
+        | Welcome to the messages system.
+    h3 All messages:
+    hr
+    ul
+      each message, key in messages
+        li= key
+        ul
+            for msg in message
+                li= msg
