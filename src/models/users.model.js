@@ -1,4 +1,5 @@
 const users = {};
+const bcrypt = require("bcrypt");
 
 exports.getUsers = () => {
     return users;
@@ -10,5 +11,5 @@ exports.addUser = (user, inf) => {
 
 exports.validPassword = (ps, us, obj) =>
 {
-    return obj[us].password === ps;
+    return bcrypt.compareSync(obj[us].password, ps);
 };

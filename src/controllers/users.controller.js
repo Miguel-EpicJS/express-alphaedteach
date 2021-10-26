@@ -1,9 +1,8 @@
 const usersModel = require("../models/users.model");
-const crypto = require("crypto");
+const bcrypt = require("bcrypt");
 
 exports.postUserAuthenticate = (req, res) => {
-    const psHash = crypto.createHash("sha256").update(req.body.password).digest("hex");    
-    if ( usersModel.validPassword(psHash, req.body.username, usersModel.getUsers()) ) {
+    if ( bcrypt.compareSync(req.body.password, usersModel.getUsers()[req.body.username].password) ) {
         res.cookie("session_id", req.body.username + "." + new Date().getTime(), {signed: true}).redirect("/dashboard");
     }
     else {
@@ -12,7 +11,7 @@ exports.postUserAuthenticate = (req, res) => {
 };
 
 exports.postUserNewAccount = (req, res) => {
-    const psHash = crypto.createHash("sha256").update(req.body.password).digest("hex");    
+    const psHash = bcrypt.hashSync(req.body.password, 10);   
     usersModel.addUser(req.body.username, {password: psHash})
 
     res.cookie("session_id", req.body.username + "." + new Date().getTime(), {signed: true}).redirect("/dashboard");
