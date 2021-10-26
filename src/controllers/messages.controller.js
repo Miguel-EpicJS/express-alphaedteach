@@ -3,25 +3,17 @@ const messagesModel = require("../models/messages.model");
 exports.getMessagesController = (req, res, next) => {
     const messages = messagesModel.getMessages();
 
-    if (req.session.loggedin) {
-        res.render("messages", {messages: messages});
-    }else{
-        res.redirect("/");
-    } 
+    res.render("messages", {messages: messages});
 }
 
-exports.postMessagesController = (req, res, next) => {
+exports.postMessagesController = (req, res) => {
     const messages = messagesModel.getMessages();
     
-    if (req.session.loggedin) {
-        if (messages[req.session.username] === undefined) {
-            messagesModel.addMessages(req.session.username, [req.body.message]);
-        }else {
-            messages[req.session.username].push(req.body.message);
-            messagesModel.addMessages(req.session.username, messages[req.session.username]);
-        };
-        res.redirect("/dashboard");
-    }else{
-        res.redirect("/");
-    } 
+    if (messages[res.locals.user] === undefined) {
+        messagesModel.addMessages(res.locals.user, [req.body.message]);
+    }else {
+        messages[res.locals.user].push(req.body.message);
+        messagesModel.addMessages(res.locals.user, messages[res.locals.user]);
+    };
+    res.redirect("/dashboard");
 }
