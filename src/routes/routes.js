@@ -24,7 +24,7 @@ exports.appRoute = (router) => {
     router.get("/messages", cookieController.validCookie, messagesController.getMessagesController);
     router.post("/new-message", cookieController.validCookie, messagesController.postMessagesController);
     
-    router.get("*", (req, res) => {
+    router.all("*", (req, res) => {
         res.status(404).json({ message: "Sorry this page doesn't exist" });
     });
 };
